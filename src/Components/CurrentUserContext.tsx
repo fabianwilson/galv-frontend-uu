@@ -1,8 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 import { Configuration, KnoxUser, LoginApi, User } from '@galv/galv'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { AxiosError, AxiosResponse } from 'axios'
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import { useSnackbarMessenger } from './SnackbarMessengerContext'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
@@ -90,7 +89,7 @@ export default function CurrentUserContextProvider({
     const [user, setUser] = useState<LoginUser | null>(local_user ?? null)
     const [username, setUsername] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    const [onSuccess, setOnSuccess] = useState<
+    const [onSuccessCallback, setOnSuccessCallback] = useState<
         ((data: AxiosResponse<KnoxUser>) => void) | undefined
     >(undefined)
     const [lastError, setLastError] = useState<AxiosError | undefined>(
@@ -117,7 +116,7 @@ export default function CurrentUserContextProvider({
             localStorage.setItem('user', JSON.stringify(data.data))
             setUser(data.data as unknown as LoginUser)
             queryClient.removeQueries({ predicate: () => true })
-            onSuccess && onSuccess(data)
+            onSuccessCallback && onSuccessCallback(data)
         },
         onError: setLastError,
     })
@@ -137,8 +136,8 @@ export default function CurrentUserContextProvider({
     ) => {
         setUsername(username)
         setPassword(password)
-        setOnSuccess(onSuccess)
-        setTimeout(() => Login.mutate(), 100)
+        setOnSuccessCallback(() => onSuccess)
+        setTimeout(() => Login.mutate(), 10)
     }
 
     const api_config = new Configuration({
