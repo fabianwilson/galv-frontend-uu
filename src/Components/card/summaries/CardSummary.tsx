@@ -29,8 +29,6 @@ import Grid from '@mui/material/Unstable_Grid2'
 import { id_from_ref_props } from '../../misc'
 import Prettify from '../../prettify/Prettify'
 import { to_type_value_notation } from '../../TypeValueNotation'
-import { ObservedFile } from '@galv/galv'
-import AuthImage from '../../AuthImage'
 import ResourceChip from '../../ResourceChip'
 import CardContent from '@mui/material/CardContent'
 

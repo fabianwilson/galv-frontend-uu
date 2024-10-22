@@ -84,6 +84,12 @@ export function humanize_bytes(bytes: number): string {
 export const has = <T, P extends string>(
     target: T,
     property: P,
-): target is T & Record<P, P extends keyof T ? T[P] : any> => {
+): target is T & Record<P, P extends keyof T ? T[P] : never> => {
     return target instanceof Object && Object.keys(target).includes(property)
 }
+
+export const has_value = <T, P extends string>(
+    target: T,
+    property: P,
+    value: unknown,
+) => has(target, property) && target[property] === value

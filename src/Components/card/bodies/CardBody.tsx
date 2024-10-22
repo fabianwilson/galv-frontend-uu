@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack'
 import PrettyObject, {
     PrettyObjectFromQuery,
 } from '../../prettify/PrettyObject'
-import { deep_copy, has } from '../../misc'
+import { deep_copy, has, has_value } from '../../misc'
 import {
     CHILD_PROPERTY_NAMES,
     FAMILY_LOOKUP_KEYS,
@@ -67,7 +67,7 @@ export default function CardBody<T extends GalvResource>({
         if (apiResource) {
             const data = deep_copy(apiResource)
             Object.entries(FIELDS[lookupKey]).forEach(([k, v]) => {
-                if (v.read_only) {
+                if (has_value(v, 'read_only', true)) {
                     delete data[k as keyof typeof data]
                 }
             })
@@ -118,7 +118,7 @@ export default function CardBody<T extends GalvResource>({
                             const data = deep_copy(d)
                             Object.entries(FIELDS[lookupKey]).forEach(
                                 ([k, v]) => {
-                                    if (!v.read_only)
+                                    if (!has_value(v, 'read_only', true))
                                         delete data[k as keyof typeof data]
                                 },
                             )

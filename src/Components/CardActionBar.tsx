@@ -28,7 +28,7 @@ import {
 import { useApiResource } from './ApiResourceContext'
 import LookupKeyIcon from './LookupKeyIcon'
 import { SvgIconProps } from '@mui/material/SvgIcon'
-import { id_from_ref_props } from './misc'
+import { has_value, id_from_ref_props } from './misc'
 import clsx from 'clsx'
 import UseStyles from '../styles/UseStyles'
 import { useSelectionManagement } from './SelectionManagementContext'
@@ -82,7 +82,7 @@ export default function CardActionBar(props: CardActionBarProps) {
                 .map(([k, v]) => {
                     const relative_lookupKey = v.type as LookupKey
                     let content: ReactNode
-                    if (v.many) {
+                    if (has_value(v, 'many', true)) {
                         const relative_value = apiResource?.[
                             k as keyof typeof apiResource
                         ] as GalvResource[] | undefined
@@ -122,7 +122,7 @@ export default function CardActionBar(props: CardActionBarProps) {
                     }
                     return (
                         <SafeTooltip
-                            title={`View ${(v.many ? DISPLAY_NAMES_PLURAL : DISPLAY_NAMES)[relative_lookupKey]}`}
+                            title={`View ${(has_value(v, 'many', true) ? DISPLAY_NAMES_PLURAL : DISPLAY_NAMES)[relative_lookupKey]}`}
                             arrow
                             describeChild
                             key={k}
