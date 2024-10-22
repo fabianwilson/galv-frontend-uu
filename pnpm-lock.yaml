@@ -18,8 +18,8 @@ dependencies:
     specifier: ^11.13.0
     version: 11.13.0(@emotion/react@11.13.0)(@types/react@18.3.3)(react@18.3.1)
   '@galv/galv':
-    specifier: 2.4.1
-    version: 2.4.1
+    specifier: 2.5.0-dev
+    version: 2.5.0-dev
   '@mui/base':
     specifier: 5.0.0-beta.40
     version: 5.0.0-beta.40(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
@@ -2180,8 +2180,8 @@ packages:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
     dev: false
 
-  /@galv/galv@2.4.1:
-    resolution: {integrity: sha512-wXXIaGwsU5Kj6OnGcFvmcJTg5rGo6BhpsFT4nUWwu5r4MBkYj2T9Aqvn7l57XeEeqYKyuR7VvehSDZffCMIKiA==}
+  /@galv/galv@2.5.0-dev:
+    resolution: {integrity: sha512-xZgRaW/h5vPlBZMyN33wVTD0v63W8E7fW4OSfQKiN8OCbCbNSuHTS3/9sZbgNfTYFEXrmrvc+aWwx2oPLTXQxg==}
     dependencies:
       axios: 0.21.4
     transitivePeerDependencies:

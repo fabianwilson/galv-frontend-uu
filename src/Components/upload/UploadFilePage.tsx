@@ -201,7 +201,7 @@ export function ReuploadFile({ clickOnly }: ReuploadFileProps) {
                                 targetFileId: String(apiResource!.id),
                                 uploader: String(user?.id),
                                 path: apiResource!.path,
-                                team: apiResource!.team,
+                                team: apiResource!.team ?? '',
                             })
                         }}
                     >
@@ -229,7 +229,7 @@ export function ReuploadFile({ clickOnly }: ReuploadFileProps) {
                         targetFileId: String(apiResource!.id),
                         uploader: String(user?.id),
                         path: apiResource!.path,
-                        team: apiResource!.team,
+                        team: apiResource!.team ?? '',
                     })
                 }}
             >
@@ -341,9 +341,10 @@ export function UploadFilePage() {
                     path: '',
                     mapping: '',
                     team: '',
-                    read_access_level: '',
-                    edit_access_level: '',
-                    delete_access_level: '',
+                    // TODO: Replace with queried defaults from files/describe
+                    read_access_level: '' as unknown as undefined,
+                    edit_access_level: '' as unknown as undefined,
+                    delete_access_level: '' as unknown as undefined,
                 })
             }
         }
