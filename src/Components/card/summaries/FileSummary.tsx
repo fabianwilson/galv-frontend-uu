@@ -170,13 +170,20 @@ export function MappingQuickSelectFromContext({
     )
 }
 
-function FileStatus(file: ObservedFile, mappings: DB_MappingResource[]) {
+function FileStatus({
+    file,
+    mappings,
+    ...alertProps
+}: {
+    file: ObservedFile
+    mappings: DB_MappingResource[]
+} & Partial<AlertProps>) {
     const map = mappings.find((m) => m.url === file.mapping)
     if (map) {
         if (map.is_valid) {
             if (file.uploader && file.state === 'MAP ASSIGNED') {
                 return (
-                    <Alert>
+                    <Alert {...alertProps}>
                         <AlertTitle>Ready for reupload</AlertTitle>
                         <Typography>
                             The mapping has been selected for this file, and it
@@ -202,6 +209,7 @@ function FileStatus(file: ObservedFile, mappings: DB_MappingResource[]) {
                         )
                     }
                     severity="success"
+                    {...alertProps}
                 >
                     Data has the required columns. Preview and analysis tools
                     are available.
@@ -223,6 +231,7 @@ function FileStatus(file: ObservedFile, mappings: DB_MappingResource[]) {
                         )
                     }
                     severity="warning"
+                    {...alertProps}
                 >
                     All mappings must recognise 'ElapsedTime_s', 'Voltage_V',
                     and 'Current_A' columns to be counted as valid. Data that do
@@ -251,6 +260,7 @@ function FileStatus(file: ObservedFile, mappings: DB_MappingResource[]) {
                         )
                     }
                     severity="warning"
+                    {...alertProps}
                 >
                     Mappings are used to map the columns in a file to the
                     columns in the database. When a suite of files use the same
@@ -279,6 +289,7 @@ function FileStatus(file: ObservedFile, mappings: DB_MappingResource[]) {
                         )
                     }
                     severity="error"
+                    {...alertProps}
                 >
                     Mappings are used to map the columns in a file to the
                     columns in the database. When a suite of files use the same
@@ -340,42 +351,64 @@ export default function FileSummary({
     }
 
     return (
-        <Stack className={clsx(classes.resourceSummary)} spacing={1}>
+        <Stack
+            className={clsx(
+                classes.resourceSummary,
+                classes.resourceSummaryCard,
+            )}
+            spacing={1}
+        >
             {!hidePath && <kbd>{r.path}</kbd>}
-            {r.has_required_columns && r.png && (
-                <AuthImage
-                    file={
-                        r as unknown as {
-                            id: string
-                            path: string
-                            png: string
+            <Stack spacing={0}>
+                {r.has_required_columns && r.png && (
+                    <AuthImage
+                        file={
+                            r as unknown as {
+                                id: string
+                                path: string
+                                png: string
+                            }
                         }
+                    />
+                )}
+                <QueryWrapper
+                    queries={[applicableMappingsQuery]}
+                    loading={
+                        <Alert
+                            icon={<CircularProgress />}
+                            color="info"
+                            role={'presentation'}
+                        >
+                            Fetching file mapping info
+                        </Alert>
+                    }
+                    error={
+                        <Alert color="warning" role={'presentation'}>
+                            Unable to determine mapping status.
+                        </Alert>
+                    }
+                    success={
+                        r.state === 'IMPORTED' ||
+                        r.state === 'AWAITING MAP ASSIGNMENT' ||
+                        r.state === 'MAP ASSIGNED' ? (
+                            <FileStatus
+                                file={r}
+                                mappings={applicable_mapping_to_db_mapping(
+                                    mappings,
+                                )}
+                                role={'presentation'}
+                            />
+                        ) : (
+                            <Alert
+                                severity={state_severity}
+                                role={'presentation'}
+                            >
+                                Status: {r.state}
+                            </Alert>
+                        )
                     }
                 />
-            )}
-            <QueryWrapper
-                queries={[applicableMappingsQuery]}
-                loading={
-                    <Alert icon={<CircularProgress />} color="info">
-                        Fetching file mapping info
-                    </Alert>
-                }
-                error={<p>Unable to determine mapping status.</p>}
-                success={
-                    r.state === 'IMPORTED' ||
-                    r.state === 'AWAITING MAP ASSIGNMENT' ||
-                    r.state === 'MAP ASSIGNED' ? (
-                        FileStatus(
-                            r,
-                            applicable_mapping_to_db_mapping(mappings),
-                        )
-                    ) : (
-                        <Alert severity={state_severity}>
-                            Status: {r.state}
-                        </Alert>
-                    )
-                }
-            />
+            </Stack>
         </Stack>
     )
 }

@@ -372,10 +372,6 @@ export function UploadFilePage() {
                 onRedo={UndoRedo.redo}
                 undoable={UndoRedo.can_undo}
                 redoable={UndoRedo.can_redo}
-                onEditSave={() => {
-                    upload()
-                    return false // Close action handled by mutation success callback
-                }}
                 onEditDiscard={() => {
                     if (
                         UndoRedo.can_undo &&

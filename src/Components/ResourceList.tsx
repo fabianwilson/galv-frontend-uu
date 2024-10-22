@@ -14,7 +14,7 @@ import Skeleton from '@mui/material/Skeleton'
 import ResourceCard from './card/ResourceCard'
 import ResourceCreator from './ResourceCreator'
 import {
-    DEFAULT_FETCH_LIMIT,
+    DEFAULT_PAGE_SIZE,
     DISPLAY_NAMES_PLURAL,
     FAMILY_LOOKUP_KEYS,
     GalvResource,
@@ -46,7 +46,7 @@ export function ResourceList<T extends GalvResource>({
     const { passesFilters } = useContext(FilterContext)
 
     const [page, setPage] = React.useState(0)
-    const [itemsPerPage, setItemsPerPage] = React.useState(DEFAULT_FETCH_LIMIT)
+    const [itemsPerPage, setItemsPerPage] = React.useState(DEFAULT_PAGE_SIZE)
 
     const query = useListQuery<T>(lookupKey, { limit: itemsPerPage })
 
@@ -123,11 +123,18 @@ export function ResourceList<T extends GalvResource>({
                     <ClientCodeDemo fileQueryLimit={itemsPerPage} />
                 )}
                 {content}
-                <ResourceCreator key={'creator'} lookupKey={lookupKey} />
+                <ResourceCreator
+                    key={'creator'}
+                    lookupKey={lookupKey}
+                    onCreate={() => {}}
+                    onDiscard={() => {}}
+                />
                 {get_has_family(lookupKey) && (
                     <ResourceCreator
                         key={'family_creator'}
                         lookupKey={FAMILY_LOOKUP_KEYS[lookupKey]}
+                        onCreate={() => {}}
+                        onDiscard={() => {}}
                     />
                 )}
             </Stack>

@@ -15,9 +15,15 @@ import Skeleton from '@mui/material/Skeleton'
  */
 export default function AuthImage({
     file,
+    ...imgProps
 }: {
     file: { id: string; path: string; name?: string; png: string }
-}) {
+} & Partial<
+    React.DetailedHTMLProps<
+        React.ImgHTMLAttributes<HTMLImageElement>,
+        HTMLImageElement
+    >
+>) {
     const [imageData, setImageData] = useState('')
     const headers = {
         authorization: `Bearer ${useCurrentUser().user?.token}`,
@@ -49,12 +55,13 @@ export default function AuthImage({
             <img
                 src={imageData}
                 alt={`Preview of data in ${file.name || file.path}`}
+                {...imgProps}
             />
         )
     }
 
     if (query.isLoading && query.isFetching) {
-        return <Skeleton height={200} />
+        return <Skeleton height={200} variant={'rectangular'} />
     }
 
     // This will always fail because the API requires authentication,
@@ -63,6 +70,7 @@ export default function AuthImage({
         <img
             src={file.png}
             alt={`Preview of data in ${file.name || file.path}`}
+            {...imgProps}
         />
     )
 }

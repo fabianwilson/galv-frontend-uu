@@ -192,7 +192,8 @@ export const key_to_type = (
     throw new Error(`key_to_type: ${k} is not a valid key`)
 }
 
-export const DEFAULT_FETCH_LIMIT = 10
+export const DEFAULT_FETCH_LIMIT = 1
+export const DEFAULT_PAGE_SIZE = 10
 
 /**
  * This is a list of various resources grouped under a common name for each

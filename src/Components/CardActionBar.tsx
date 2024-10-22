@@ -60,7 +60,7 @@ export type CardActionBarProps = {
 
 /**
  *
- * @param props.onEditSave function that returns true if the save was successful. If false, the editing state will not change.
+ * @param props.onEditSave function that returns true if the save was successful. If false, the editing state will not change. If the variable is undefined, the save icon will not be displayed.
  * @param props.onEditDiscard function that returns true if the discard was successful. If false, the editing state will not change.
  *
  * @constructor
@@ -138,10 +138,6 @@ export default function CardActionBar(props: CardActionBarProps) {
     if (props.editable) {
         if (typeof props.setEditing !== 'function')
             throw new Error(`setEditing must be a function if editable=true`)
-        if (typeof props.onEditSave !== 'function')
-            throw new Error(`onEditSave must be a function if editable=true`)
-        if (typeof props.onEditDiscard !== 'function')
-            throw new Error(`onEditDiscard must be a function if editable=true`)
         if (!props.editing) {
             edit_section = (
                 <SafeTooltip
@@ -163,24 +159,26 @@ export default function CardActionBar(props: CardActionBarProps) {
 
             edit_section = (
                 <>
-                    <SafeTooltip
-                        title={`Save changes`}
-                        arrow
-                        describeChild
-                        key="save"
-                    >
-                        <IconButton
-                            onClick={() => {
-                                if (props.onEditSave!())
-                                    props.setEditing!(false)
-                            }}
+                    {props.onEditSave !== undefined && (
+                        <SafeTooltip
+                            title={`Save changes`}
+                            arrow
+                            describeChild
+                            key="save"
                         >
-                            <ICONS.SAVE
-                                {...iconProps}
-                                color={theme.palette.success.main}
-                            />
-                        </IconButton>
-                    </SafeTooltip>
+                            <IconButton
+                                onClick={() => {
+                                    if (props.onEditSave!())
+                                        props.setEditing!(false)
+                                }}
+                            >
+                                <ICONS.SAVE
+                                    {...iconProps}
+                                    color={theme.palette.success.main}
+                                />
+                            </IconButton>
+                        </SafeTooltip>
+                    )}
                     {props.onUndo && (
                         <SafeTooltip title={`Undo`} arrow key="undo">
                             <IconButton
@@ -201,24 +199,26 @@ export default function CardActionBar(props: CardActionBarProps) {
                             </IconButton>
                         </SafeTooltip>
                     )}
-                    <SafeTooltip
-                        title={`Discard changes`}
-                        arrow
-                        describeChild
-                        key="discard"
-                    >
-                        <IconButton
-                            onClick={() => {
-                                if (props.onEditDiscard!())
-                                    props.setEditing!(false)
-                            }}
+                    {props.onEditDiscard !== undefined && (
+                        <SafeTooltip
+                            title={`Discard changes`}
+                            arrow
+                            describeChild
+                            key="discard"
                         >
-                            <MdClose
-                                {...iconProps}
-                                color={theme.palette.error.main}
-                            />
-                        </IconButton>
-                    </SafeTooltip>
+                            <IconButton
+                                onClick={() => {
+                                    if (props.onEditDiscard!())
+                                        props.setEditing!(false)
+                                }}
+                            >
+                                <MdClose
+                                    {...iconProps}
+                                    color={theme.palette.error.main}
+                                />
+                            </IconButton>
+                        </SafeTooltip>
+                    )}
                 </>
             )
         }

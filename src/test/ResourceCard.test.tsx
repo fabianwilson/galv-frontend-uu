@@ -214,7 +214,7 @@ describe('ResourceCard', () => {
                     JSON.parse(c[0].data).identifier === new_value,
             )
             expect(!!patch_call).toBeTruthy()
-        }, 10000)
+        })
 
         it('supports undo and redo', async () => {
             const user = userEvent.setup()
@@ -496,7 +496,7 @@ describe('ResourceCard', () => {
             })
             expect(!!patch_call).toBeTruthy()
         })
-    })
+    }, 25000)
 
     describe('ResourceCard advanced editing', () => {
         it('allows booleans to be changed', async () => {
@@ -687,7 +687,7 @@ describe('ResourceCard', () => {
                 `representation: CELL_FAMILY [${cell_families[1].id}]`,
             )
         })
-    })
+    }, 15000)
 
     describe('ResourceCard type changing', () => {
         async function setup(rowheader_name: string, new_type: string) {

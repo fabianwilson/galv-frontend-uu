@@ -376,6 +376,7 @@ export default makeStyles()((theme) => {
             color: theme.palette.text.disabled,
         },
         resourceSummary: {
+            padding: [theme.spacing(0), theme.spacing(2)],
             '& > .MuiStack-root': {
                 display: 'flex',
                 lineHeight: '2em',
@@ -383,6 +384,15 @@ export default makeStyles()((theme) => {
                 '& .MuiChip-root': {
                     minWidth: '10em',
                 },
+            },
+        },
+        resourceSummaryCard: {
+            padding: 0,
+            '& kbd': { padding: [theme.spacing(0), theme.spacing(2)] },
+            '& img': { maxWidth: '100%' },
+            '& .MuiAlert-root': {
+                width: '100%',
+                alignSelf: 'stretch',
             },
         },
         chipList: {
