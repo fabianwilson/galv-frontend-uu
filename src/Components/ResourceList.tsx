@@ -8,7 +8,7 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import clsx from 'clsx'
-import Grid from '@mui/material/Unstable_Grid2'
+import Grid from '@mui/material/Grid2'
 import CircularProgress from '@mui/material/CircularProgress'
 import Skeleton from '@mui/material/Skeleton'
 import ResourceCard from './card/ResourceCard'
@@ -97,7 +97,31 @@ export function ResourceList<T extends GalvResource>({
                 />
             ))
     } else {
-        content = 'No resources to show.'
+        content = (
+            <Typography
+                variant={'body1'}
+                className={classes.resourceListBlankBody}
+            >
+                There is nothing to show.
+                {!user && (
+                    <>
+                        {' '}
+                        You may see more if you are signed in.
+                        <Button
+                            variant="outlined"
+                            size={'small'}
+                            onClick={() => setLoginFormOpen(true)}
+                        >
+                            Log in now
+                        </Button>
+                    </>
+                )}
+                {user && (<>
+                    {' '}
+                    Why not get started by creating something?
+                    </>)}
+            </Typography>
+        )
     }
 
     return (
