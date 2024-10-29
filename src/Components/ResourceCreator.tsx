@@ -95,9 +95,9 @@ export function TokenCreator({
         },
     })
 
-    const update_ttl = (v: number | undefined) => {
-        const x = (v ?? 0) * timeUnit
-        x > 0 ? setTTL(x) : setTTL(undefined)
+    const getTTL = () => {
+        const x = (ttl ?? 0) * timeUnit
+        return x > 0 ? x : undefined
     }
 
     const time_units = {
@@ -139,7 +139,7 @@ export function TokenCreator({
                     step={1}
                     min={0}
                     value={ttl || 0}
-                    onChange={(_e, v) => update_ttl(v ?? 0)}
+                    onChange={(_e, v) => setTTL(v ?? 0)}
                 />
                 <Select
                     labelId="select-time-unit-label"
@@ -155,21 +155,21 @@ export function TokenCreator({
                     ))}
                 </Select>
             </Stack>
-            {!ttl && (
-                <Alert severity="info">
-                    Tokens with no TTL value will be valid forever.
-                </Alert>
-            )}
             <Button
                 variant="contained"
                 color="success"
                 onClick={() =>
-                    create_mutation.mutate({ name, ttl: ttl || undefined })
+                    create_mutation.mutate({ name, ttl: getTTL() })
                 }
                 disabled={name === ''}
             >
                 Create
             </Button>
+            {!ttl && (
+                <Alert severity="info">
+                    Tokens with no TTL value will be valid forever.
+                </Alert>
+            )}
         </Stack>
     )
 
