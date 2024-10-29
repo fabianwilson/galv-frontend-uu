@@ -38,6 +38,11 @@ and we'll need an API Token to authorise the creation of the Harvester.
 
 The URL of the Galv API is shown in the text at the top of the Harvesters page.
 
+  .. thumbnail:: img/api_url.png
+    :alt: URL of the Galv API
+    :align: center
+    :title: URL of the Galv API
+
 ======================================================================================
 Getting the API Token
 ======================================================================================
@@ -62,12 +67,12 @@ Creating the Harvester
 ======================================================================================
 
 Go to the machine where the data is stored and open a terminal.
-Run `pip install galv-harvester` to install the Galv Harvester Python package.
+Run ``pip install galv-harvester`` to install the Galv Harvester Python package.
 
-Installing the package gives you the `galv-harvester` command.
-Run `galv-harvester --help` to see the options.
+Installing the package gives you the ``galv-harvester`` command.
+Run ``galv-harvester --help`` to see the options.
 
-We want to set up a Harvester, so run `galv-harvester setup`.
+We want to set up a Harvester, so run ``galv-harvester setup``.
 You'll be prompted for the URL of the Galv API and your API Token.
 
 Enter the URL of the Galv API and your API Token when prompted.
